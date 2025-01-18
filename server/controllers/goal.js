@@ -10,19 +10,30 @@ const createGoal = async (req, res) => {
     }
 };
 
-const getGoals = async (req, res) => {
+const getGoals = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const goals = await Goal.find({ userId });
-        res.status(200).send(goals);
+        res.status(200).json({ goals });
     } catch (error) {
-        res.status(400).send({ message: error.message });
+        next(error)
     }
 };
 
+const getGoalById = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        const response = await Goal.find({ _id: req.params.id, userId: userId });
+        res.status(200).json({ goal: response[0] });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const updateGoal = async (req, res) => {
     try {
-        const goal = await Goal.findOneAndUpdate({ _id: req.params.id, userId: req.user._id }, req.body, { new: true });
+        const userId = req.user.id;
+        const goal = await Goal.findOneAndUpdate({ _id: req.params.id, userId: userId }, req.body, { new: true });
         if (!goal) {
             return res.status(404).send({ message: 'Goal not found' });
         }
@@ -34,7 +45,8 @@ const updateGoal = async (req, res) => {
 
 const deleteGoal = async (req, res) => {
     try {
-        const goal = await Goal.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+        const userId = req.user.id;
+        const goal = await Goal.findOneAndDelete({ _id: req.params.id, userId: userId });
         if (!goal) {
             return res.status(404).send({ message: 'Goal not found' });
         }
@@ -44,4 +56,4 @@ const deleteGoal = async (req, res) => {
     }
 };
 
-module.exports = { createGoal, getGoals, updateGoal, deleteGoal };
+module.exports = { createGoal, getGoals, getGoalById, updateGoal, deleteGoal };

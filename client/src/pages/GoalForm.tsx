@@ -1,29 +1,39 @@
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Goal } from '../interfaces/Goal';
 
-interface IFormInput {
-    title: string;
-    description: string;
-    category: string;
-    dueDate: string;
-    status: string;
-}
-
-const GoalForm: React.FC = () => {
-    const { register, handleSubmit, reset } = useForm<IFormInput>();
-    const navigate = useNavigate();
+const GoalForm = () => {
     const { id } = useParams<{ id: string }>();
+    const [goal, setGoal] = useState<Goal>({ title: '', description: '', category: '', dueDate: '', status: '' });
+    const navigate = useNavigate();
 
-    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    useEffect(() => {
+        if (id) {
+            fetchGoal();
+        }
+    }, [id]);
+
+    const fetchGoal = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/goals/getGoalById/${id}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
+            setGoal(response.data.goal);
+        } catch (error) {
+            console.error('Failed to fetch goal', error);
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         try {
             if (id) {
-                await axios.put(`/api/goals/${id}`, data, {
+                await axios.put(`http://localhost:3000/goals/update/${id}`, goal, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
             } else {
-                await axios.post('http://localhost:5000/goals/add', data, {
+                await axios.post('http://localhost:3000/goals/add', goal, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
             }
@@ -33,55 +43,70 @@ const GoalForm: React.FC = () => {
         }
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        setGoal({ ...goal, [name]: value });
+    };
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">{id ? 'Edit Goal' : 'Add Goal'}</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Title</label>
                     <input
                         type="text"
-                        id="title"
-                        {...register('title', { required: 'Title is required' })}
-                        className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        name="title"
+                        value={goal.title}
+                        onChange={handleChange}
+                        className="mt-2 block w-full border p-2 rounded-md"
+                        required
                     />
                 </div>
-                <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Description</label>
                     <textarea
-                        id="description"
-                        {...register('description', { required: 'Description is required' })}
-                        className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        name="description"
+                        value={goal.description}
+                        onChange={handleChange}
+                        className="mt-2 block w-full border p-2 rounded-md"
+                        required
                     />
                 </div>
-                <div>
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Category</label>
                     <input
                         type="text"
-                        id="category"
-                        {...register('category', { required: 'Category is required' })}
-                        className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        name="category"
+                        value={goal.category}
+                        onChange={handleChange}
+                        className="mt-2 block w-full border p-2 rounded-md"
+                        required
                     />
                 </div>
-                <div>
-                    <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700">Due Date</label>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Due Date</label>
                     <input
                         type="date"
-                        id="dueDate"
-                        {...register('dueDate', { required: 'Due Date is required' })}
-                        className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        name="dueDate"
+                        value={goal.dueDate ? new Date(goal.dueDate).toISOString().split('T')[0] : ''}
+                        onChange={handleChange}
+                        className="mt-2 block w-full border p-2 rounded-md"
+                        required
                     />
                 </div>
-                <div>
-                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status</label>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Status</label>
                     <input
                         type="text"
-                        id="status"
-                        {...register('status', { required: 'Status is required' })}
-                        className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        name="status"
+                        value={goal.status}
+                        onChange={handleChange}
+                        className="mt-2 block w-full border p-2 rounded-md"
+                        required
                     />
                 </div>
-                <button type="submit" className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button type="submit" className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     {id ? 'Update Goal' : 'Add Goal'}
                 </button>
             </form>
