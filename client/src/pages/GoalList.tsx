@@ -62,7 +62,7 @@ const GoalList: React.FC = () => {
         <div className="container mx-auto p-4 min-h-screen">
             <div className='flex justify-between'>
                 <h1 className="text-3xl font-bold mb-4">Goals</h1>
-                <Link to="/goals/new" className="bg-orange-500 p-2 rounded text-white mb-4 hover:bg-orange-600">Add Goal</Link>
+                <Link to="/goals/new" className="bg-sky-500 hover:bg-sky-500/75 px-4 shadow-md py-2 rounded text-white mb-4">Create Goal</Link>
             </div>
             <div className="mb-4">
                 <label className="mr-2">Filter:</label>
@@ -90,7 +90,7 @@ const GoalList: React.FC = () => {
                         <div className="space-y-2">
                           <p className="capitalize text-gray-600">{goal.category}</p>
                           <p className="text-gray-600">{new Date(goal.dueDate).toLocaleDateString()}</p>
-                            <p className="text-gray-600 text-3xl font-bold mt-3"> <span className='text-sm'>Streak</span> {goal.streak}</p>
+                            <p className="text-3xl text-gray-700 font-bold mt-3"> <span className='text-sm'>Streak</span> <span className='text-lime-600 italic'>{goal.streak}</span></p>
                         </div>
                       </div>                      
                     ))}
