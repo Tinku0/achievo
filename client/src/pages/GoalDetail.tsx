@@ -9,7 +9,7 @@ const GoalDetail: React.FC = () => {
 
     useEffect(() => {
         const fetchGoal = async () => {
-            const response = await axios.get(`http://localhost:3000/goals/getGoalById/${id}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}goals/getGoalById/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             setGoal(response.data.goal);

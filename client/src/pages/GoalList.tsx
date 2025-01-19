@@ -20,7 +20,7 @@ const GoalList: React.FC = () => {
 
     const fetchGoals = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/goals/get', {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}goals/get`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             setGoals(response.data.goals);
@@ -31,7 +31,7 @@ const GoalList: React.FC = () => {
 
     const handleDelete = async (id: string | undefined) => {
         try {
-            await axios.delete(`http://localhost:3000/goals/delete/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}goals/delete/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             fetchGoals();
@@ -46,7 +46,7 @@ const GoalList: React.FC = () => {
 
     const handleComplete = async (id: string | undefined) => {
         try {
-            await axios.put(`http://localhost:3000/goals/complete/${id}`, {}, {
+            await axios.put(`${import.meta.env.VITE_API_BASE_URL}goals/complete/${id}`, {}, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             fetchGoals();

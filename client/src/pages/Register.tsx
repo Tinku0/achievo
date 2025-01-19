@@ -15,7 +15,7 @@ const Register: React.FC = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            const res = await axios.post('http://localhost:3000/auth/register', {
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/register`, {
                 email: data.email,
                 password: data.password
             });

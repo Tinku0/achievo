@@ -16,7 +16,7 @@ const GoalForm = () => {
 
     const fetchGoal = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/goals/getGoalById/${id}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}goals/getGoalById/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             setGoal(response.data.goal);
@@ -29,11 +29,11 @@ const GoalForm = () => {
         event.preventDefault();
         try {
             if (id) {
-                await axios.put(`http://localhost:3000/goals/update/${id}`, goal, {
+                await axios.put(`${import.meta.env.VITE_API_BASE_URL}goals/update/${id}`, goal, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
             } else {
-                await axios.post('http://localhost:3000/goals/add', goal, {
+                await axios.post(`${import.meta.env.VITE_API_BASE_URL}goals/add`, goal, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
             }

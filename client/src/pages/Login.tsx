@@ -14,7 +14,7 @@ const Login: React.FC = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            const response = await axios.post('http://localhost:3000/auth/login', data);
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/login`, data);
             localStorage.setItem('token', response.data.token);
             navigate('/goals');
         } catch (error) {
