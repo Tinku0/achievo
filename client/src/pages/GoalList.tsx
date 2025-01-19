@@ -81,7 +81,7 @@ const GoalList: React.FC = () => {
                     {filteredGoals.length > 0 &&
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {filteredGoals.map(goal => (
-                                <div key={goal._id} className={"shadow-md rounded-lg p-6 bg-white transition-transform duration-200 transform hover:scale-105 " + (goal.status === 'completed' ? 'bg-green-300' : 'bg-red-300')}>
+                                <div key={goal._id} className={"shadow-md rounded-lg p-6 transition-transform duration-200 transform hover:scale-105 " + (goal.status === 'completed' ? 'bg-green-300' : 'bg-red-300')}>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-2xl font-semibold text-blue-600">{goal.title}</h2>
                                         <div className='flex space-x-2 items-center'>
