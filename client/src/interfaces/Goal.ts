@@ -5,5 +5,6 @@ export interface Goal {
     category: string;
     dueDate: string;
     status: string;
+    recurrence: string;
     userId?: string;
 }

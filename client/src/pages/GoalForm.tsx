@@ -5,7 +5,7 @@ import { Goal } from '../interfaces/Goal';
 
 const GoalForm = () => {
     const { id } = useParams<{ id: string }>();
-    const [goal, setGoal] = useState<Goal>({ title: '', description: '', category: '', dueDate: '', status: '' });
+    const [goal, setGoal] = useState<Goal>({ title: '', description: '', category: '', dueDate: '', recurrence: '', status: '' });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const GoalForm = () => {
         }
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
         setGoal({ ...goal, [name]: value });
     };
@@ -105,6 +105,20 @@ const GoalForm = () => {
                         className="mt-2 block w-full border p-2 rounded-md"
                         required
                     />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Recurrence</label>
+                    <select
+                        name="recurrence"
+                        value={goal.recurrence}
+                        onChange={handleChange}
+                        className="mt-1 block w-full"
+                    >
+                        <option value="none">None</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
                 </div>
                 <button type="submit" className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     {id ? 'Update Goal' : 'Add Goal'}
