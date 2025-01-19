@@ -14,6 +14,16 @@ const checkRecurringGoals = () => {
                 if (dueDate < now) {
                     const nextDueDate = calculateNextDueDate(goal.dueDate, goal.recurrence);
                     goal.dueDate = nextDueDate;
+
+                    if (goal.status === 'completed') {
+                        goal.streak += 1;
+                        goal.lastCompletedDate = now;
+                        goal.completionDates.push(now);
+                    } else {
+                        goal.streak = 0;
+                    }
+
+                    goal.status = 'pending';
                     await goal.save();
                     console.log(`Updated goal ${goal._id} with next due date: ${nextDueDate}`);
                 }

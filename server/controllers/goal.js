@@ -56,4 +56,23 @@ const deleteGoal = async (req, res) => {
     }
 };
 
-module.exports = { createGoal, getGoals, getGoalById, updateGoal, deleteGoal };
+const markGoalAsComplete = async (req, res) => {
+    try {
+        const goal = await Goal.findById(req.params.id);
+        if (!goal) {
+            return res.status(404).json({ message: 'Goal not found' });
+        }
+
+        goal.status = 'completed';
+        goal.streak += 1;
+        goal.lastCompletedDate = new Date();
+        goal.completionDates.push(goal.lastCompletedDate);
+
+        await goal.save();
+        res.json(goal);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to complete goal', error });
+    }
+}
+
+module.exports = { createGoal, getGoals, getGoalById, updateGoal, deleteGoal, markGoalAsComplete };

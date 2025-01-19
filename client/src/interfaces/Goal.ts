@@ -6,5 +6,7 @@ export interface Goal {
     dueDate: string;
     status: string;
     recurrence: string;
+    streak: number;
+    completionDates?: [];
     userId?: string;
 }

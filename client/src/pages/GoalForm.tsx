@@ -5,7 +5,7 @@ import { Goal } from '../interfaces/Goal';
 
 const GoalForm = () => {
     const { id } = useParams<{ id: string }>();
-    const [goal, setGoal] = useState<Goal>({ title: '', description: '', category: '', dueDate: '', recurrence: '', status: '' });
+    const [goal, setGoal] = useState<Goal>({ title: '', description: '', category: '', dueDate: '', recurrence: '', streak: 0, completionDates: [], status: '' });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -97,14 +97,15 @@ const GoalForm = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700">Status</label>
-                    <input
-                        type="text"
+                    <select
                         name="status"
                         value={goal.status}
                         onChange={handleChange}
                         className="mt-2 block w-full border p-2 rounded-md"
-                        required
-                    />
+                    >
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
                 </div>
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700">Recurrence</label>
@@ -112,7 +113,7 @@ const GoalForm = () => {
                         name="recurrence"
                         value={goal.recurrence}
                         onChange={handleChange}
-                        className="mt-1 block w-full"
+                        className="mt-2 block w-full border p-2 rounded-md"
                     >
                         <option value="none">None</option>
                         <option value="daily">Daily</option>
