@@ -77,7 +77,7 @@ const GoalList: React.FC = () => {
                     {filteredGoals.map(goal => (
                         <div key={goal._id} className={"shadow-md rounded-lg p-6 bg-white transition-transform duration-200 transform hover:scale-105" + (goal.status === 'completed' ? ' bg-green-300' : ' bg-red-300')}>
                         <div className="flex justify-between items-center mb-4">
-                          <h2 className="text-xl font-bold text-gray-800">{goal.title}</h2>
+                          <h2 className="text-2xl font-bold text-gray-800">{goal.title}</h2>
                           <div className="flex space-x-4 items-center">
                             <ActionIcon src={editIcon} alt="edit" tooltip="Edit" onClick={() => handleEdit(goal._id)} />
                             <ActionIcon src={deleteIcon} alt="delete" tooltip="Delete" onClick={() => handleDelete(goal._id)} />
@@ -88,9 +88,9 @@ const GoalList: React.FC = () => {
                         </div>
                         
                         <div className="space-y-2">
-                          <p className="capitalize text-gray-600">{goal.category}</p>
+                          <p className="capitalize text-gray-600 text-sm font-bold italic tracking-wide">{goal.category}</p>
                           <p className="text-gray-600">{new Date(goal.dueDate).toLocaleDateString()}</p>
-                            <p className="text-3xl text-gray-700 font-bold mt-3"> <span className='text-sm'>Streak</span> <span className='text-lime-600 italic'>{goal.streak}</span></p>
+                          <p className="text-3xl text-gray-700 font-bold"> <span className='text-sm'>Streak</span> <span className='text-lime-600 italic'>{goal.streak}</span></p>
                         </div>
                       </div>                      
                     ))}
