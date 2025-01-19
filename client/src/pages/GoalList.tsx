@@ -6,12 +6,10 @@ import editIcon from '../assets/edit.svg';
 import deleteIcon from '../assets/delete.svg';
 import completeIcon from '../assets/complete.svg';
 import ActionIcon from '../components/ActionIcon';
-import GoalCalendar from '../components/GoalCalendar';
 
 const GoalList: React.FC = () => {
     const [goals, setGoals] = useState<Goal[]>([]);
     const [filter, setFilter] = useState<string>('all');
-    const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,10 +72,7 @@ const GoalList: React.FC = () => {
                     <option value="completed">Completed</option>
                 </select>
             </div>
-            {selectedGoal ? (
-                <GoalCalendar goal={selectedGoal} />
-            ) : (
-                <>
+            <>
                     {filteredGoals.length > 0 &&
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {filteredGoals.map(goal => (
@@ -99,7 +94,7 @@ const GoalList: React.FC = () => {
                                     <p className="text-gray-600 mb-2">Status: {goal.status}</p>
                                     <p className="text-gray-600 mb-2">Streak: {goal.streak}</p>
                                     <p className="text-gray-600 mb-2">Completion Dates: {goal?.completionDates?.map(date => new Date(date).toLocaleDateString()).join(', ')}</p>
-                                    <button onClick={() => setSelectedGoal(goal)} className="mt-2 px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <button onClick={() => navigate(`/goal-calendar/${goal._id}`)} className="mt-2 px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         View Calendar
                                     </button>
                                 </div>
@@ -108,7 +103,6 @@ const GoalList: React.FC = () => {
                     }
                     {filteredGoals.length === 0 && <div className='mt-3'>No goals found</div>}
                 </>
-            )}
         </div>
     );
 };

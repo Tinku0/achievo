@@ -3,9 +3,9 @@ import './App.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import GoalList from './pages/GoalList'
-import GoalDetail from './pages/GoalDetail'
 import GoalForm from './pages/GoalForm'
 import Header from './components/Header'
+import GoalCalendar from './pages/GoalCalendar'
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
           <Route path="/goals" element={<GoalList />} />
           <Route path="/goals/new" element={<GoalForm />} />
           <Route path="/goal-form/:id" element={<GoalForm />} />
-          <Route path="/goals/:id" element={<GoalDetail />} />
+          <Route path="/goal-calendar/:id" element={<GoalCalendar />} />
           <Route path="/goals/:id/edit" element={<GoalForm />} />
         </Route>
       </Routes>
