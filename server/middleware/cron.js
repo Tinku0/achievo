@@ -3,13 +3,15 @@ const Goal = require('../models/goal'); // Adjust the path to your Goal model
 const calculateNextDueDate = require('../utils/calculateNextDueDate');
 
 const checkRecurringGoals = async () => {
+    console.log('in')
     try {
         const now = new Date();
         const goals = await Goal.find({ recurrence: { $ne: 'none' } });
 
         for (const goal of goals) {
             const dueDate = new Date(goal.dueDate);
-            if (dueDate < now) {
+            if (goal.recurrence === 'daily') {
+                console.log(`Goal ${goal._id} is due`);
                 const nextDueDate = calculateNextDueDate(goal.dueDate, goal.recurrence);
                 goal.dueDate = nextDueDate;
 
