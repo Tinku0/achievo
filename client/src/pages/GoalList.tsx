@@ -44,7 +44,7 @@ const GoalList: React.FC = () => {
 
     const handleComplete = async (id: string | undefined) => {
         try {
-            await axios.put(`${import.meta.env.VITE_API_BASE_URL}goals/complete/${id}`, {}, {
+            await axios.put(`${import.meta.env.VITE_API_BASE_URL}goals/markAsFinish/${id}`, {}, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             fetchGoals();

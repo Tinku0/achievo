@@ -10,18 +10,13 @@ const checkRecurringGoals = async () => {
 
         for (const goal of goals) {
             const dueDate = new Date(goal.dueDate);
-            if (goal.recurrence === 'daily') {
+            if (goal.recurrence === 'daily' &&
+                goal.lastCompletedDate !== now &&
+                !goal?.completionDates?.includes(now)) {
                 console.log(`Goal ${goal._id} is due`);
                 const nextDueDate = calculateNextDueDate(goal.dueDate, goal.recurrence);
                 goal.dueDate = nextDueDate;
 
-                if (goal.status === 'completed') {
-                    goal.streak += 1;
-                    goal.lastCompletedDate = now;
-                    goal.completionDates.push(now);
-                } else {
-                    goal.streak = 0;
-                }
 
                 goal.status = 'pending';
                 await goal.save();

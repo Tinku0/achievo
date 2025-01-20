@@ -65,6 +65,7 @@ const markGoalAsComplete = async (req, res) => {
 
         goal.status = 'completed';
         goal.streak += 1;
+        console.log(goal.streak)
         goal.lastCompletedDate = new Date();
         goal.completionDates.push(goal.lastCompletedDate);
 
