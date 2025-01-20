@@ -19,4 +19,4 @@ const calculateNextDueDate = (currentDueDate, recurrenceType) => {
     return nextDueDate.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
 };
 
-module.exports = { calculateNextDueDate };
+module.exports = calculateNextDueDate;
