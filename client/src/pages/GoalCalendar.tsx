@@ -18,7 +18,7 @@ const GoalCalendar: React.FC = () => {
 
     const fetchGoals = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/goals/get', {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}goals/get`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             setGoals(response.data.goals);
